@@ -4,8 +4,8 @@ import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
-import LoginScreen from '@/app/@/screens/Authentication/LoginScreen'; // Import your Login screen
-import Homepage from '@/app/@/screens/Core/Homepage';
+import LoginScreen from '@/app/screens/Authentication/LoginScreen'; // Import your Login screen
+import Homepage from '@/app/screens/Core/Homepage';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 const Stack = createNativeStackNavigator();

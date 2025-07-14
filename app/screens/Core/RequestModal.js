@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import {
-    Button,
-    Keyboard,
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableWithoutFeedback,
-    View
+  Keyboard,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
+import defaultStyles from '../defaultStyles';
 
   const styles = StyleSheet.create({
   overlay: {
@@ -65,6 +66,7 @@ export default class RequestModal extends Component {
           <View style={styles.overlay}>
             <View style={styles.modalContainer}>
               <ScrollView contentContainerStyle={{ padding: 20 }}>
+                <Text style={[defaultStyles.defaultTitle,{'textAlign':'center'}]}>Make a New Task Request</Text>
                 <Text style={styles.label}>Title</Text>
                 <TextInput
                   style={styles.input}
@@ -98,8 +100,16 @@ export default class RequestModal extends Component {
                 />
 
                 <View style={styles.buttonContainer}>
-                  <Button title="Submit" onPress={() => console.log(this.state)} />
-                  <Button title="Cancel" color="#999" onPress={onClose} />
+                  <TouchableHighlight style={defaultStyles.defaultButton}
+                    onPress={() => console.log('Task accepted', task)} 
+                  >
+                    <Text style={defaultStyles.defaultButtonText}>Submit</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight style={defaultStyles.defaultButtonAlt}
+                    onPress={onClose} 
+                  >
+                    <Text style={defaultStyles.defaultButtonText}>Cancel</Text>
+                  </TouchableHighlight>
                 </View>
               </ScrollView>
             </View>
