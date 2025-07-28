@@ -90,23 +90,21 @@ const defaultStyles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-         // iOS Shadow
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        // Android Shadow
         elevation: 5,
-        backgroundColor: '#007bff',
+        backgroundColor: '#002676',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        bottom: 100, 
+        bottom: 30, 
         right: 20,
         zIndex: 1000,
     },
     defaultCircleButtonText: {
-        color: '#fff',
+        color: '#FAD867',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 30,
@@ -128,6 +126,58 @@ const defaultStyles = StyleSheet.create({
         // Android Shadow
         elevation: 5,
         zIndex: 1000,
+    },
+    // Add these new card styles
+    cardContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F7F8FA',
+        borderRadius: 12,
+        padding: 12,
+        marginBottom: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 6,
+        elevation: 3
+    },
+    cardAvatar: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        marginRight: 12
+    },
+    cardTextContainer: {
+        flex: 1
+    },
+    cardTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: 4
+    },
+    cardSubtitle: {
+        fontSize: 14,
+        color: '#666'
+    },
+    cardPrice: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#018943',
+        marginRight: 12
+    },
+    cardIcon: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    cardIconSuccess: {
+        backgroundColor: '#28a745'
+    },
+    cardIconDisabled: {
+        backgroundColor: '#6c757d'
     }
 }); 
 
