@@ -41,7 +41,9 @@
         {
           "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiamFtZXNsYXNrZXktdWNiIiwiYSI6ImNtYzhucGQxbzFsdXQyaW9sYnJ1NXplbWQifQ.CvHXozUHg_RCBDuc-o7N-g"
         }
-      ]
+      ],
+      "expo-web-browser",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

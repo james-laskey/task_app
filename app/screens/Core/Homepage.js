@@ -47,7 +47,7 @@ export default function Homepage() {
         name="Home" 
         component={ApiMapAnnotations}
         initialParams={{ 
-          apiEndpoint: "http://localhost:3000/getUncompletedTasks?school=University%20of%20California%3A%20Berkeley"
+          apiEndpoint: "http://10.0.0.67:3000/getUncompletedTasks?school=University%20of%20California%3A%20Berkeley"
         }}
       />
       <Tab.Screen name="Settings" component={SettingsScreen} />

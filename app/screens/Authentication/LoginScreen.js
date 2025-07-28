@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableHighlight } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import * as Keychain from 'react-native-keychain';
 import defaultStyles from '../defaultStyles';
 
 export default function LoginScreen({ navigation }) {
@@ -13,41 +12,14 @@ export default function LoginScreen({ navigation }) {
     setIsLoading(true);
     
     try {
-      
-      const API_URL = 'http://localhost:3000/login'
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Login failed with status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      if (!data.token) {
-        throw new Error('No authentication token received');
-      }
-
-      // Store token securely
-      await Keychain.setGenericPassword(
-        'auth_token', // can be any string as username
-        data.token,   // the actual JWT token
-        {
-          service: 'net.task-u.app.service', // optional but recommended
-          accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED // iOS only
-        }
-      );
-
+      // Skip login - navigate directly to Homepage
       navigation.navigate('Homepage');
     } catch (error) {
       Alert.alert(
-        'Login Failed',
-        error.message || 'Could not log in. Please try again.'
+        'Navigation Failed',
+        error.message || 'Could not navigate. Please try again.'
       );
-      console.error('Login error:', error);
+      console.error('Navigation error:', error);
     } finally {
       setIsLoading(false);
     }
