@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+const { width } = Dimensions.get('window');
 
 const defaultStyles = StyleSheet.create({ 
     defaultButton: {
@@ -128,7 +129,81 @@ const defaultStyles = StyleSheet.create({
         // Android Shadow
         elevation: 5,
         zIndex: 1000,
-    }
+    },
+    // add inside StyleSheet.create({ … }) in defaultStyles.js
+
+  // ─── Profile / Activity Card ───────────────────────────────────────────────
+  cardContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F7F8FA',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 3,
+    width: width - 32,       // remember to `import { Dimensions }` at top
+  },
+  cardAvatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    marginRight: 12,
+  },
+  cardTextContainer: {
+    flex: 1,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#111',
+    marginBottom: 4,
+  },
+  cardSubtitle: {
+    fontSize: 14,
+    color: '#666',
+  },
+  cardPrice: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#000',
+    marginHorizontal: 12,
+  },
+  cardIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardIconSuccess: {
+    backgroundColor: '#2ECC71',
+  },
+  cardIconDisabled: {
+    backgroundColor: '#FAD867',
+  },
+
+  // ─── Floating Action Button ────────────────────────────────────────────────
+  fab: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#002676',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+
 }); 
 
 export default defaultStyles;
