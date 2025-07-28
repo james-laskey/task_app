@@ -1,10 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-
 import { StyleSheet } from 'react-native';
 import SettingsScreen from '../Authentication/SettingsScreen';
+import HomepageStack from '../Stacks/HomepageStack';
 import ProfileScreen from '../User/ProfileScreen';
-import ApiMapAnnotations from './MapAnnotations';
 
 import { Ionicons } from '@expo/vector-icons'; // Install with: npm install @expo/vector-icons
 
@@ -45,7 +44,7 @@ export default function Homepage() {
     >
       <Tab.Screen 
         name="Home" 
-        component={ApiMapAnnotations}
+        component={HomepageStack}
         initialParams={{ 
           apiEndpoint: "http://localhost:3000/getUncompletedTasks?school=University%20of%20California%3A%20Berkeley"
         }}
