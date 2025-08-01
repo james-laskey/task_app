@@ -36,7 +36,7 @@ export default function Homepage() {
           borderTopWidth: 0,
           elevation: 10,
           shadowOpacity: 0.1,
-          paddingBottom: 50,
+          paddingBottom: 90,
           height: 60
         },
         headerShown: false
@@ -49,8 +49,8 @@ export default function Homepage() {
           apiEndpoint: "http://localhost:3000/getUncompletedTasks?school=University%20of%20California%3A%20Berkeley"
         }}
       />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }

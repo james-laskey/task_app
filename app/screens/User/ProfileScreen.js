@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useUser } from '../../UserContext';
 import defaultStyles from '../defaultStyles';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation, route}) => {
   const [activeTab, setActiveTab] = useState('profile');
-
+  const {user} = useUser();
   // Sample profile data
   const profileData = {
     name: 'Alex Johnson',

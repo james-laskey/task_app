@@ -9,7 +9,6 @@ import {
     View
 } from 'react-native';
 import Config from 'react-native-config';
-import * as Keychain from 'react-native-keychain';
 import { SQIPCore } from 'react-native-square-in-app-payments';
 import defaultStyles from '../defaultStyles';
 
@@ -103,72 +102,10 @@ export default function TaskOffersPage({ navigation, route }) {
     SQIPCore.setSquareApplicationId(Config.SQUARE_APP_ID); // Replace with your actual App ID
     }, []);
 
-  useEffect(() => {
-  const fetchAcceptedOffer = async () => {
-    if (task.accepted) {
-      try {
-        // Replace this with your actual API call
-        const accepted = {
-          id: '2',
-          name: 'Bob Smith',
-          offer: 80,
-          profileImage: require('../../../assets/defaultUser.png'),
-          userId: 'user_2',
-        };
-        setAcceptedOffer(accepted);
-      } catch (error) {
-        console.error('Error fetching accepted offer:', error);
-      }
-    }
-  };
-
-  fetchAcceptedOffer();
-}, [task.accepted]);
 
   useEffect(() => {
-    const fetchUIDAndOffers = async () => {
-      try {
-        const credentials = await Keychain.getGenericPassword();
-        if (credentials) {
-          const storedUid = credentials.uid;
-          setUid(storedUid);
-          console.log('Retrieved UID from Keychain:', storedUid);
-
-          const mockOffers = [
-            {
-              id: '1',
-              name: 'Alice Johnson',
-              offer: 75,
-              profileImage: require('../../../assets/defaultUser.png'),
-              userId: 'user_1',
-            },
-            {
-              id: '2',
-              name: 'Bob Smith',
-              offer: 80,
-              profileImage: require('../../../assets/defaultUser.png'),
-              userId: 'user_2',
-            },
-            {
-              id: '3',
-              name: 'Charlie Lee',
-              offer: 70,
-              profileImage: require('../../../assets/defaultUser.png'),
-              userId: 'user_3',
-            },
-          ];
-
-          setOffers(mockOffers);
-        } else {
-          console.warn('No credentials stored');
-        }
-      } catch (error) {
-        console.error('Keychain error:', error);
-      }
-    };
-
-    fetchUIDAndOffers();
-  }, []);
+    console.log("offers", task.offers);
+  }, [task]);
 
   const handleCardPress = (userId) => {
     navigation.navigate('UserProfile', { userId });
@@ -251,41 +188,44 @@ export default function TaskOffersPage({ navigation, route }) {
         </View>
         )}
 
-      {offers.map((offer) => (
-        <View key={offer.id} style={styles.card}>
-          <TouchableHighlight
+      {task.offers?.map((offer) => (
+        <View key={`${offer.user}-${offer.datetimestamp}`} style={styles.card}>
+            <TouchableHighlight
             underlayColor="#ddd"
-            onPress={() => handleCardPress(offer.userId)}
+            onPress={() => handleCardPress(offer.user)}
             style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
-          >
+            >
             <>
-              <Image source={offer.profileImage} style={styles.profileImage} />
-              <View style={styles.cardTextContainer}>
+                <Image
+                source={offer.profileImage || require('../../../assets/defaultUser.png')}
+                style={styles.profileImage}
+                />
+                <View style={styles.cardTextContainer}>
                 <Text style={styles.nameText}>{offer.name}</Text>
                 <Text style={styles.offerText}>Offer: ${offer.offer}</Text>
-              </View>
+                </View>
             </>
-          </TouchableHighlight>
+            </TouchableHighlight>
 
-          <View style={styles.actionButtons}>
+            <View style={styles.actionButtons}>
             <TouchableHighlight
-              style={styles.actionButton}
-              underlayColor="#bbb"
-              onPress={() => confirmRemoveOffer(offer)}
+                style={styles.actionButton}
+                underlayColor="#bbb"
+                onPress={() => confirmRemoveOffer(offer)}
             >
-              <Text style={[styles.actionText, { color: 'red' }]}>✕</Text>
+                <Text style={[styles.actionText, { color: 'red' }]}>✕</Text>
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={styles.actionButton}
-              underlayColor="#bbb"
-              onPress={() => confirmAcceptOffer(offer)}
+                style={styles.actionButton}
+                underlayColor="#bbb"
+                onPress={() => confirmAcceptOffer(offer)}
             >
-              <Text style={[styles.actionText, { color: 'green' }]}>✓</Text>
+                <Text style={[styles.actionText, { color: 'green' }]}>✓</Text>
             </TouchableHighlight>
-          </View>
+            </View>
         </View>
-      ))}
+        ))}
 
       {/* Delete Confirmation Modal */}
       <Modal visible={showDeleteModal} transparent animationType="fade">

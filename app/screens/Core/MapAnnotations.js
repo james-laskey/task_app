@@ -1,10 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
 import { Callout, Camera, MapView, PointAnnotation, UserLocation } from '@rnmapbox/maps';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, Image, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import defaultStyles from '../defaultStyles';
 import Bubble from '../Widgets/Bubble';
-import TaskInfoModal from '../Widgets/TaskInfoModal'; // Assuming you have a TaskInfoModal component
 import RequestModal from './RequestModal'; // Assuming you have a RequestModal component
 
 const ApiMapAnnotations = ({
@@ -17,7 +17,6 @@ const ApiMapAnnotations = ({
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showTaskModal, setShowTaskModal] = useState(false);
   const [error, setError] = useState(null);
   
 
@@ -56,13 +55,15 @@ const ApiMapAnnotations = ({
     }
   };
 
+   const navigation = useNavigation();
+
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
   const toggleTaskModal = (annotation) => {
     setSelectedAnnotation(annotation); // Optional: Clear selection when deselected
-    setShowTaskModal(!showTaskModal);
+    navigation.navigate('TaskInfo', { task: annotation });
   };
 
 
@@ -82,7 +83,8 @@ const ApiMapAnnotations = ({
         title: item.title,
         description: item.description,
         address: item.address,
-        user: item.user
+        user: item.user,
+        offers: item.offers || [],
       })));
     })
     .catch(error => console.error('Failed to fetch tasks:', error));
@@ -192,10 +194,6 @@ const ApiMapAnnotations = ({
         <RequestModal visible={showModal}  onClose={toggleModal}/>
       </Modal>
 
-      <Modal visible={showTaskModal} transparent={true} animationType="slide" onRequestClose={toggleTaskModal}>
-        <TaskInfoModal task={selectedAnnotation} visible={showTaskModal}  onClose={()=>toggleTaskModal(selectedAnnotation)}/>
-      </Modal>
-
       <TouchableHighlight onPress={toggleModal} style={defaultStyles.defaultCircleButton}>
         <Text style={defaultStyles.defaultCircleButtonText}>+$</Text>  
       </TouchableHighlight>
@@ -205,7 +203,7 @@ const ApiMapAnnotations = ({
           <TouchableHighlight
             style={defaultStyles.defaultButton}
             onPress={()=>toggleTaskModal(selectedAnnotation)}>
-            <Text style={defaultStyles.defaultButtonText}>View Task</Text>
+            <Text style={defaultStyles.defaultButtonText}>{`View Task: \n ${selectedAnnotation.title}`}</Text>
           </TouchableHighlight>
         ) : (
           <Text style={[defaultStyles.defaultText, {'textAlign': 'center'}]}>

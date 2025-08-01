@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableHighlight } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Keychain from 'react-native-keychain';
+import { useUser } from '../../UserContext';
 import defaultStyles from '../defaultStyles';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('defaultuser@berkeley.edu');
   const [password, setPassword] = useState('Tasku2025!');
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useUser();
+
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -26,6 +29,8 @@ export default function LoginScreen({ navigation }) {
       }
 
       const data = await response.json();
+      setUser({ uid: data.uid, firstname: data.firstname, lastname: data.lastname });
+      console.log('Login successful:', data);
       
       if (!data.token) {
         throw new Error('No authentication token received');

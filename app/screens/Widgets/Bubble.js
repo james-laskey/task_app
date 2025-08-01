@@ -10,17 +10,12 @@ const Bubble = ({ children }) => (
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 50,
+    bottom: 25,
     left: 20,
     right: 20,
-    backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    
   }
 });
 

@@ -7,7 +7,10 @@ import {
     TouchableHighlight,
     View
 } from 'react-native';
+import { useUser } from '../../UserContext';
 import defaultStyles from '../defaultStyles';
+import MakeOfferModal from '../Widgets/MakeOfferModal';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -58,10 +61,14 @@ const styles = StyleSheet.create({
 
 
 export default function TaskInfoPage({ navigation, route }) {
-    
+    const { user } = useUser();
     const { task } = route.params;
     const [uid, setUid] = useState(null);
     const [tasker, setTasker] = useState(false);
+    const [showMakeOfferModal, setShowMakeOfferModal] = useState(false);
+
+  const handleMakeOffer = () => {
+  }
 
   if (!task) return null;
 
@@ -76,32 +83,18 @@ export default function TaskInfoPage({ navigation, route }) {
     //
   };
   useEffect(() => {
-  const fetchUID = async () => {
-    try {
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
-        const uid = credentials.uid; // or credentials.password
-        console.log('Retrieved UID from Keychain:', uid);
-        if (uid == task.uid) {
-            this.setState({ tasker: false });
-        } else {
-          this.setState({ tasker: true });
-        }
-        // You can now use uid to fetch task data or send to server
-      } else {
-        console.warn('No credentials stored');
-      }
-    } catch (error) {
-      console.error('Keychain error:', error);
+    if (user.uid == task.user.uid) {
+        setTasker(false);
+    } else {
+        setTasker(true);
+        setUid(user.uid);
     }
-  };
+  
 
-  fetchUID();
-}, [uid]);
+    }, [user]);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
-      <View style={styles.contentBox}>
         <View style={styles.header}>
           <Text style={defaultStyles.defaultTitle}>{task.title}</Text>
           <Image source={require("../../../assets/DefaultCallIcon.png")} style={{ width: 25, height: 25 }} />
@@ -128,19 +121,22 @@ export default function TaskInfoPage({ navigation, route }) {
             <Text style={defaultStyles.defaultButtonText}>Close</Text>
           </TouchableHighlight>
             {tasker ? (
-                <TouchableHighlight style={defaultStyles.defaultButton} onPress={handleAccept}>
-                <Text style={defaultStyles.defaultButtonText}>Accept Task</Text>
+                <TouchableHighlight style={defaultStyles.defaultButton} onPress={() => setShowMakeOfferModal(true)}>
+                <Text style={defaultStyles.defaultButtonText}>Make Offer</Text>
                 </TouchableHighlight>
             ) : (
-                <TouchableHighlight style={defaultStyles.defaultButton} onPress={}>
-                <Text style={defaultStyles.defaultButtonText}>View Taskers</Text>
+                <TouchableHighlight style={defaultStyles.defaultButton} onPress={() => navigation.navigate('TaskOffers', { task })}>
+                <Text style={defaultStyles.defaultButtonText}>View Offers</Text>
                 </TouchableHighlight>
             )}
-          <TouchableHighlight style={defaultStyles.defaultButton} onPress={navigation.navigate('TaskOffers')}>
-            <Text style={defaultStyles.defaultButtonText}>Accept Task</Text>
-          </TouchableHighlight>
         </View>
-      </View>
+        {showMakeOfferModal && (
+          <MakeOfferModal
+            visible={showMakeOfferModal}
+            onClose={() => setShowMakeOfferModal(false)}
+            task={task}
+          />
+        )}
     </ScrollView>
   );
 }

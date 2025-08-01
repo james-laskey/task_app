@@ -97,7 +97,7 @@ const defaultStyles = StyleSheet.create({
         shadowRadius: 3.84,
         // Android Shadow
         elevation: 5,
-        backgroundColor: '#007bff',
+        backgroundColor: '#002676',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
@@ -106,7 +106,7 @@ const defaultStyles = StyleSheet.create({
         zIndex: 1000,
     },
     defaultCircleButtonText: {
-        color: '#fff',
+        color: '#FAD867',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 30,
