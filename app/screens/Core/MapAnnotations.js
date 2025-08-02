@@ -82,6 +82,8 @@ const ApiMapAnnotations = ({
         offer: item.offer,
         title: item.title,
         description: item.description,
+        accepted: item.accepted,
+        acceptedOffer: item.acceptedOffer || null,
         address: item.address,
         user: item.user,
         offers: item.offers || [],

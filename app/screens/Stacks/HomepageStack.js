@@ -1,6 +1,7 @@
 // navigation/HomeStack.js
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import AcceptedOfferPage from '../Core/AcceptedOfferPage';
 import ApiMapAnnotations from '../Core/MapAnnotations';
 import TaskInfoPage from '../Core/TaskInfopage';
 import TaskOffersPage from '../Core/TaskOffersPage';
@@ -14,6 +15,7 @@ export default function HomeStack() {
       <Stack.Screen name="Map" component={ApiMapAnnotations} options={{ title: 'Campus',headerShown:false }} />
       <Stack.Screen name="TaskInfo" component={TaskInfoPage} options={{ title: 'Task Details' }} />
       <Stack.Screen name="TaskOffers" component={TaskOffersPage} options={{ title: 'Task Offers' }} />
+      <Stack.Screen name="AcceptedOfferPage" component={AcceptedOfferPage} options={{ title: 'Accepted Offer' }} />
       <Stack.Screen name="Confirmation" component={ConfirmationPage} options={{ title: 'Payment Confirmation' }} />
     </Stack.Navigator>
   );

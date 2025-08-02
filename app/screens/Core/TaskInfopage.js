@@ -10,6 +10,8 @@ import {
 import { useUser } from '../../UserContext';
 import defaultStyles from '../defaultStyles';
 import MakeOfferModal from '../Widgets/MakeOfferModal';
+import AcceptedOfferPage from './AcceptedOfferPage';
+import TaskOffersPage from './TaskOffersPage';
 
 
 const styles = StyleSheet.create({
@@ -84,6 +86,7 @@ export default function TaskInfoPage({ navigation, route }) {
   };
   useEffect(() => {
     if (user.uid == task.user.uid) {
+        console.log("User is the task poster");
         setTasker(false);
     } else {
         setTasker(true);
@@ -105,7 +108,7 @@ export default function TaskInfoPage({ navigation, route }) {
             <Image source={require("../../../assets/defaultUser.png")} style={{ width: 100, height: 100 }} />
           </View>
           <View style={styles.headerContainer}>
-            <Text style={[defaultStyles.defaultLabel, { textAlign: 'center' }]}>Offer</Text>
+            <Text style={[defaultStyles.defaultLabel, { textAlign: 'center' }]}>Request</Text>
             <Text style={defaultStyles.defaultCurrencyTitleModal}>{"$" + task.offer}</Text>
           </View>
         </View>
@@ -117,19 +120,23 @@ export default function TaskInfoPage({ navigation, route }) {
         <Text style={defaultStyles.defaultText}>{task.address}</Text>
 
         <View style={styles.buttonContainer}>
-          <TouchableHighlight style={defaultStyles.defaultButtonAlt} onPress={handleClose}>
-            <Text style={defaultStyles.defaultButtonText}>Close</Text>
-          </TouchableHighlight>
             {tasker ? (
-                <TouchableHighlight style={defaultStyles.defaultButton} onPress={() => setShowMakeOfferModal(true)}>
-                <Text style={defaultStyles.defaultButtonText}>Make Offer</Text>
-                </TouchableHighlight>
+            <TouchableHighlight style={defaultStyles.defaultButton} onPress={handleAccept}>
+                <Text style={defaultStyles.defaultButtonText}>Accept Task</Text>
+            </TouchableHighlight>
             ) : (
-                <TouchableHighlight style={defaultStyles.defaultButton} onPress={() => navigation.navigate('TaskOffers', { task })}>
-                <Text style={defaultStyles.defaultButtonText}>View Offers</Text>
-                </TouchableHighlight>
-            )}
+          <TouchableHighlight style={defaultStyles.defaultButtonAlt} onPress={handleClose}>
+            <Text style={defaultStyles.defaultButtonText}>Cancel Task</Text>
+          </TouchableHighlight>)
+          }
+            
         </View>
+        
+        { tasker ? (<TouchableHighlight style={defaultStyles.defaultButton} onPress={() => setShowMakeOfferModal(true)}>
+                <Text style={defaultStyles.defaultButtonText}>Make Offer</Text>
+                </TouchableHighlight>) : task.accepted ?
+        (<AcceptedOfferPage acceptedOffer={task.acceptedOffer} navigation={navigation} />): ((<TaskOffersPage task={task} navigation={navigation} />))}
+
         {showMakeOfferModal && (
           <MakeOfferModal
             visible={showMakeOfferModal}

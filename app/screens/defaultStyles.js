@@ -5,11 +5,6 @@ const defaultStyles = StyleSheet.create({
         backgroundColor: '#002676',
         padding: 10,
         borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 10,
         marginBottom: 5,
 
     },
@@ -17,11 +12,7 @@ const defaultStyles = StyleSheet.create({
         backgroundColor: '#FAD867',
         padding: 10,
         borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 10,
+   
 
     },
     defaultSidebarButton: {

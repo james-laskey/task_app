@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function TaskOffersPage({ navigation, route }) {
-  const { task } = route.params;
+export default function TaskOffersPage({ navigation, route, task }) {
+  
   const [uid, setUid] = useState(null);
   const [offers, setOffers] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
@@ -99,12 +99,13 @@ export default function TaskOffersPage({ navigation, route }) {
   const [acceptedOffer, setAcceptedOffer] = useState(null);
 
   useEffect(() => {
-    SQIPCore.setSquareApplicationId(Config.SQUARE_APP_ID); // Replace with your actual App ID
+    SQIPCore.setSquareApplicationId(Config.SQUARE_APP_ID); // Replace with your actual App ID\
+    
     }, []);
 
 
   useEffect(() => {
-    console.log("offers", task.offers);
+    
   }, [task]);
 
   const handleCardPress = (userId) => {
@@ -117,6 +118,7 @@ export default function TaskOffersPage({ navigation, route }) {
   };
 
   const confirmAcceptOffer = (offer) => {
+    //add api logic to accept offer
     setSelectedOffer(offer);
     setShowAcceptModal(true);
   };
@@ -168,25 +170,7 @@ export default function TaskOffersPage({ navigation, route }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
-      <Text style={defaultStyles.defaultTitle}>Offers for: {task.title}</Text>
-
-        {acceptedOffer && (
-        <View style={[styles.card, { backgroundColor: '#e8f5e9' }]}>
-            <Image source={acceptedOffer.profileImage} style={styles.profileImage} />
-            <View style={styles.cardTextContainer}>
-            <Text style={styles.acceptedLabel}>Accepted Offer</Text>
-            <Text style={styles.nameText}>{acceptedOffer.name}</Text>
-            <Text style={styles.offerText}>Offer: ${acceptedOffer.offer}</Text>
-            </View>
-            <TouchableHighlight
-            style={styles.actionButton}
-            underlayColor="#bbb"
-            onPress={startCardEntry}
-            >
-            <Text style={[styles.actionText, { color: 'green' }]}>Pay</Text>
-            </TouchableHighlight>
-        </View>
-        )}
+      <Text style={defaultStyles.defaultTitle}>Offers</Text>
 
       {task.offers?.map((offer) => (
         <View key={`${offer.user}-${offer.datetimestamp}`} style={styles.card}>
