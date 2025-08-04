@@ -136,37 +136,7 @@ export default function TaskOffersPage({ navigation, route, task }) {
     setSelectedOffer(null);
   };
 
-  const startCardEntry = async () => {
-    try {
-        await SQIPCardEntry.startCardEntryFlow(
-        { collectPostalCode: false },
-        async (cardDetails) => {
-            const nonce = cardDetails.nonce;
-            console.log('Card nonce:', nonce);
 
-            // Send nonce and amount to your backend
-            await fetch('https://your-server.com/process-payment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nonce,
-                amount: acceptedOffer.offer * 100, // Square expects cents
-                currency: 'USD',
-                taskId: task.id,
-                userId: uid,
-            }),
-            });
-
-            await SQIPCardEntry.completeCardEntry();
-        },
-        () => {
-            console.log('Card entry canceled');
-        }
-            );
-        } catch (error) {
-            console.error('Payment error:', error);
-        }
-    };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserProvider } from './/UserContext';
 
 import LoginScreen from '@/app/screens/Authentication/LoginScreen'; // Import your Login screen
@@ -23,13 +24,16 @@ export default function RootLayout() {
 
   return (
     <UserProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Homepage" component={Homepage} options={{ headerShown: false }} />
-        </Stack.Navigator>
-        <StatusBar style="auto" />
-      </ThemeProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Homepage" component={Homepage} options={{ headerShown: false }} />
+          </Stack.Navigator>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </SafeAreaView>
+      
     </UserProvider>
   );
 }

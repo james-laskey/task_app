@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableHighlight, UIManager, View } from 'react-native';
 import Config from 'react-native-config';
+import ImmersiveMode from 'react-native-immersive';
+import * as Keychain from 'react-native-keychain';
 import { SQIPCardEntry, SQIPCore } from 'react-native-square-in-app-payments';
 import defaultStyles from '../defaultStyles';
 
@@ -12,16 +14,23 @@ const AcceptedOfferPage = ({ acceptedOffer, onPaymentComplete }) => {
     try {
         setIsPaying(true);
 
+        
+        const credentials = await Keychain.getGenericPassword({
+          service: 'net.task-u.app.service' // Must match storage service name
+        });
+        if (!credentials) {
+          throw new Error('No authentication token found');
+        }
         await SQIPCardEntry.startCardEntryFlow(
         { collectPostalCode: false },
         async (cardDetails) => {
             const nonce = cardDetails.nonce;
             console.log('Received nonce:', nonce);
-
+            await SQIPCardEntry.completeCardEntry();
             // Send nonce to your backend to complete the payment
             const response = await fetch('http://localhost:3000/process-payment', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${credentials.password}` },
             body: JSON.stringify({
                 nonce,
                 amount: acceptedOffer.offer * 100, // Square expects cents
@@ -30,8 +39,9 @@ const AcceptedOfferPage = ({ acceptedOffer, onPaymentComplete }) => {
                 userId: acceptedOffer.user,
             }),
             });
-
+            console.log('Payment response:', response);
             const result = await response.json();
+            console.log('Payment result:', result);
             if (result.success) {
             await SQIPCardEntry.completeCardEntry();
             onPaymentComplete?.(acceptedOffer);
@@ -40,6 +50,7 @@ const AcceptedOfferPage = ({ acceptedOffer, onPaymentComplete }) => {
             await SQIPCardEntry.cancelCardEntry();
             }
 
+            ImmersiveMode.setImmersive(false);
             setIsPaying(false);
         },
             () => {
@@ -58,6 +69,9 @@ const AcceptedOfferPage = ({ acceptedOffer, onPaymentComplete }) => {
 
   const componentDidMount = async () => {
     await SQIPCore.setSquareApplicationId(Config.SQUARE_APP_ID);
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
   }
 
   return (

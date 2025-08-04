@@ -36,7 +36,7 @@ export default function Homepage() {
           borderTopWidth: 0,
           elevation: 10,
           shadowOpacity: 0.1,
-          paddingBottom: 90,
+          paddingBottom: 5,
           height: 60
         },
         headerShown: false
